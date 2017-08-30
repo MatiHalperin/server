@@ -15,11 +15,7 @@ function StartServer()
 
             rm -rf "commands"
 
-<<<<<<< HEAD
             git add . &> /dev/null
-=======
-            git add . > /dev/null
->>>>>>> 87bf8172062825201811c73d1b3f3fd286a15891
             git commit --quiet -m "Executed"
             git push --quiet
         fi
@@ -32,11 +28,7 @@ function SendCommand()
 
     rm -rf "result"
 
-<<<<<<< HEAD
     git add . &> /dev/null
-=======
-    git add . > /dev/null
->>>>>>> 87bf8172062825201811c73d1b3f3fd286a15891
     git commit --quiet -m "Pushed"
     git push --quiet
 
