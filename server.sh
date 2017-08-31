@@ -6,14 +6,12 @@ function StartServer()
     do
         git pull --quiet
 
-        if [ -f "commands" ]
+        if [ -f "command" ]
         then
-            while read -r line || [[ -n $line ]]
-            do
-                eval "$line" > "result"
-            done < "commands"
+            COMMAND=$(cat "command")
+            "$COMMAND" &> "result"
 
-            rm -rf "commands"
+            rm -rf "command"
 
             git add . &> /dev/null
             git commit --quiet -m "Executed"
@@ -24,7 +22,7 @@ function StartServer()
 
 function SendCommand()
 {
-    echo "$1" > "commands"
+    echo "$1" > "command"
 
     rm -rf "result"
 
