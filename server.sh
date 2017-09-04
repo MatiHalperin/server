@@ -20,7 +20,7 @@ function StartServer()
 
         if [ -f ".server/command" ]
         then
-            eval "$(cat ".server/command")" &> ".server/result"
+            bash "$(cat ".server/command")" &> ".server/result"
 
             rm -rf ".server/command"
 
