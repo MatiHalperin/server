@@ -24,7 +24,7 @@ function StartServer()
 
             rm -rf ".server/command"
 
-            git add ".server/result .server/command" &> /dev/null
+            git add ".server/" &> /dev/null
             git commit --quiet -m "Executed"
             git push --quiet
         fi
@@ -42,7 +42,7 @@ function SendCommand()
 
     rm -rf ".server/result"
 
-    git add ".server/command .server/result" &> /dev/null
+    git add ".server/" &> /dev/null
     git commit --quiet -m "Pushed"
     git push --quiet
 
