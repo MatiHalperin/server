@@ -1,19 +1,30 @@
 #!/bin/bash
 
+function CreateServer()
+{
+    git init
+    git remote add origin "$1"
+    git pull origin master
+}
+
 function StartServer()
 {
+    if [ ! -d ".server" ]
+    then
+        mkdir ".server"
+    fi
+
     while :
     do
         git pull --quiet
 
         if [ -f ".server/command" ]
         then
-            COMMAND=$(cat ".server/command")
-            "$COMMAND" &> ".server/result"
+            eval "$(cat ".server/command")" &> ".server/result"
 
             rm -rf ".server/command"
 
-            git add ".server/result" &> /dev/null
+            git add ".server/result .server/command" &> /dev/null
             git commit --quiet -m "Executed"
             git push --quiet
         fi
@@ -22,11 +33,16 @@ function StartServer()
 
 function SendCommand()
 {
+    if [ ! -d ".server" ]
+    then
+        mkdir ".server"
+    fi
+
     echo "$1" > ".server/command"
 
     rm -rf ".server/result"
 
-    git add ".server/command" &> /dev/null
+    git add ".server/command .server/result" &> /dev/null
     git commit --quiet -m "Pushed"
     git push --quiet
 
@@ -36,11 +52,4 @@ function SendCommand()
     done
 
     cat ".server/result"
-}
-
-function CreateServer()
-{
-    git init
-    git remote add origin "$1"
-    git pull origin master
 }
