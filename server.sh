@@ -6,14 +6,14 @@ function StartServer()
     do
         git pull --quiet
 
-        if [ -f "command" ]
+        if [ -f ".server/command" ]
         then
-            COMMAND=$(cat "command")
-            "$COMMAND" &> "result"
+            COMMAND=$(cat ".server/command")
+            "$COMMAND" &> ".server/result"
 
-            rm -rf "command"
+            rm -rf ".server/command"
 
-            git add . &> /dev/null
+            git add ".server/result" &> /dev/null
             git commit --quiet -m "Executed"
             git push --quiet
         fi
@@ -22,18 +22,25 @@ function StartServer()
 
 function SendCommand()
 {
-    echo "$1" > "command"
+    echo "$1" > ".server/command"
 
-    rm -rf "result"
+    rm -rf ".server/result"
 
-    git add . &> /dev/null
+    git add ".server/command" &> /dev/null
     git commit --quiet -m "Pushed"
     git push --quiet
 
-    while [ ! -f "result" ]
+    while [ ! -f ".server/result" ]
     do
         git pull --quiet
     done
 
-    cat "result"
+    cat ".server/result"
+}
+
+function CreateServer()
+{
+    git init
+    git remote add origin "$1"
+    git pull origin master
 }
